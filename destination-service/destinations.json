@@ -1,0 +1,7 @@
+[
+    {
+        "name": "backend-api",
+        "url": "http://localhost:4004",
+        "forwardAuthToken": true
+    }
+]

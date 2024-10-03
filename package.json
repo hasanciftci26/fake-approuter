@@ -1,0 +1,21 @@
+{
+    "name": "fake-approuter-main",
+    "version": "1.0.0",
+    "description": "Fake Approuter Main",
+    "scripts": {
+        "start-all": "npm run start-approuter && npm run start-backend && npm run start-html5 && npm run start-destination",
+        "start-approuter": "npm --prefix router run start",
+        "start-backend": "npm --prefix srv run start",
+        "start-html5": "npm --prefix html5-repo run start",
+        "start-destination": "npm --prefix destination-service run start"
+    },
+    "keywords": [
+        "backend",
+        "approuter",
+        "express",
+        "rest",
+        "api"
+    ],
+    "author": "hasanciftcii26@gmail.com",
+    "license": "UNLICENSED"
+}

@@ -1,0 +1,26 @@
+{
+  "name": "fake-html5-repo",
+  "version": "1.0.0",
+  "description": "Fake HTML5 Repo",
+  "main": "server.js",
+  "scripts": {
+    "start": "npx ts-node server.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "html5",
+    "repository",
+    "repo",
+    "runtime"
+  ],
+  "author": "hasanciftcii26@gmail.com",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "express": "^4.21.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.2"
+  }
+}

@@ -1,0 +1,8 @@
+# Exclude node_modules folders recursively
+node_modules/
+
+# Exclude default-env.json files
+default-env.json
+
+# Exclude .env files
+.env

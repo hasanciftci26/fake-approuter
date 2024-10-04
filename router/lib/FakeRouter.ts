@@ -1,7 +1,9 @@
 import userXSApp from "../xs-app.json";
-import { IDefaultXSAppJSON, IUserXSAppJSON } from "../types";
+import { IDefaultXSAppJSON, IUserXSAppJSON, IXSAppRoute } from "../types";
 import HTML5Repository from "./HTML5Repository";
 import CustomError from "./CustomError";
+import Destination from "./Destination";
+import axios, { AxiosRequestConfig } from "axios";
 
 export default class FakeRouter {
     private xsapp: IDefaultXSAppJSON;
@@ -35,6 +37,38 @@ export default class FakeRouter {
 
     public getLocalDirectories(): string[] {
         return this.xsapp.routes.filter(route => route.localDir).map(route => route.localDir) as string[];
+    }
+
+    public getRoutes() {
+        const noneLocalRoutes = this.xsapp.routes.filter(route => !route.localDir);
+
+        if (this.xsapp.welcomeFile) {
+            return noneLocalRoutes.filter(route => new RegExp(route.source).test(this.xsapp.welcomeFile as string) === false);
+        } else {
+            return noneLocalRoutes;
+        }
+    }
+
+    public async getContent(path: string) {
+        const routes = this.getRoutes();
+        const route = routes.find(rt => new RegExp(rt.source).test(path)) as IXSAppRoute;
+
+        if (!route.destination) {
+            throw new CustomError("The destination is missing for the matching route", 404);
+        }
+
+        const dest = new Destination(route.destination);
+        const destination = await dest.getDestination();
+        const config: AxiosRequestConfig = {};
+
+        if (destination.forwardAuthToken) {
+            config.headers = {
+                Authorization: "Bearer " + this.userToken
+            };
+        }
+
+        const response = await axios.get(destination.url + path, config);
+        return response.data;
     }
 
     public async serveWelcomeFile() {

@@ -1,7 +1,10 @@
 {
     "compilerOptions": {
         "types": [
-            "express"
+            "express",
+            "passport",
+            "cookie-parser",
+            "sap__xsenv"
         ],
         "target": "ES2022",
         "strict": true,

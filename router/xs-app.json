@@ -2,7 +2,7 @@
     "authenticationMethod": "route",
     "routes": [
         {
-            "source": "/backend-server/(.*)",
+            "source": "^/backend-server/(.*)$",
             "destination": "backend-api",
             "authenticationType": "xsuaa"
         }

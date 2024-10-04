@@ -81,6 +81,31 @@ router.getLocalDirectories().forEach((directory) => {
     });
 });
 
+router.getRoutes().forEach((route) => {
+    app.get(new RegExp(route.source), async (req, res, next) => {
+        req.session.originPath = req.url;
+        router.setUserToken(req.session.accessToken);
+
+        if (router.isLoginRequired()) {
+            const auth = new AuthorizationServer(`${req.protocol}://${req.get("host")}/login/callback`);
+
+            try {
+                return res.redirect(auth.getLoginURL());
+            } catch (error) {
+                return next(error);
+            }
+        } else {
+            try {
+                const content = await router.getContent(req.url);
+                res.send(content);
+                return;
+            } catch (error) {
+                return next(error);
+            }
+        }
+    });
+});
+
 if (router.isWelcomeFileAvailable()) {
     app.get(router.getWelcomeFilePath() + "/*", async (req, res, next) => {
         req.session.originPath = req.url;

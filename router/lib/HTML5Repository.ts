@@ -41,7 +41,11 @@ export default class HTML5Repository {
             const token = await this.getJWTToken();
 
             try {
-                const response = await axios.get(this.repository!.uri + requestPath);
+                const response = await axios.get(this.repository!.uri + requestPath, {
+                    headers: {
+                        Authorization: "Bearer " + token
+                    }
+                });
                 return response.data;
             } catch (error) {
                 throw new CustomError("The requested file could not be identified.", 404);
@@ -78,8 +82,13 @@ export default class HTML5Repository {
 
     private async loadXSAppJSON() {
         const token = await this.getJWTToken();
+
         try {
-            const response = await axios.get(this.repository!.uri + this.appId + "/xs-app.json");
+            const response = await axios.get(this.repository!.uri + this.appId + "/xs-app.json", {
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            });
             const userXSApp = response.data as IUserXSAppJSON;
             this.xsapp = {
                 authenticationMethod: userXSApp.authenticationMethod || "route",

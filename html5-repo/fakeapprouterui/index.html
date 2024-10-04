@@ -5,10 +5,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fake UI</title>
+    <script>
+        async function callApi() {
+            try {
+                // Call the backend API endpoint
+                const response = await fetch('/fakeapprouterui/backend-server/endpoint', {
+                    method: 'GET', // Or 'POST', 'PUT', etc. depending on your API
+                });
+
+                // Check if the response is ok
+                if (!response.ok) {
+                    throw new Error('API request failed');
+                }
+
+                // Parse the response JSON
+                const data = await response.json();
+
+                // Display the result on the screen
+                document.getElementById('result').innerText = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('result').innerText = 'Error: ' + error.message;
+            }
+        }
+    </script>    
 </head>
 
 <body>
     <p>Hello world HTML5 Repository!</p>
+
+    <!-- Button to trigger API call -->
+    <button onclick="callApi()">Call API</button>
+
+    <!-- Area to display the result -->
+    <pre id="result">API result will be displayed here...</pre>    
 </body>
 
 </html>
